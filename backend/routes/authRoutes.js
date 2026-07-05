@@ -3,7 +3,8 @@ const router = express.Router();
 
 const {
     registerUser,
-    loginUser
+    loginUser,
+    getProfile
 } = require("../controllers/authController");
 
 const verifyToken = require("../middleware/authMiddleware");
@@ -13,12 +14,6 @@ router.post("/register", registerUser);
 router.post("/login", loginUser);
 
 // Protected Route
-router.get("/profile", verifyToken, (req, res) => {
-    res.status(200).json({
-        success: true,
-        message: "Protected Route Accessed Successfully!",
-        user: req.user
-    });
-});
+router.get("/profile", verifyToken, getProfile);
 
 module.exports = router;

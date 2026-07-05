@@ -12,6 +12,25 @@ const findUserByEmail = async (email) => {
     return result.rows[0];
 };
 
+const findUserById = async (id) => {
+
+    const query = `
+        SELECT
+            id,
+            full_name,
+            email,
+            phone,
+            created_at
+        FROM students
+        WHERE id = $1;
+    `;
+
+    const result = await pool.query(query, [id]);
+
+    return result.rows[0];
+
+};
+
 const createUser = async (userData) => {
 
     const query = `
@@ -31,16 +50,17 @@ const createUser = async (userData) => {
 
     const user = result.rows[0];
 
-delete user.password;
+    const { password, ...safeUser } = result.rows[0];
 
-return {
-    success: true,
-    message: "User registered successfully!",
-    user
-};
+    return {
+        success: true,
+        message: "User registered successfully!",
+        user: safeUser
+    };
 };
 
 module.exports = {
     createUser,
-    findUserByEmail
+    findUserByEmail,
+    findUserById
 };

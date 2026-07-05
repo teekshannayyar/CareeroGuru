@@ -71,7 +71,24 @@ const loginUser = async (userData) => {
     };
 };
 
+const getProfile = async (userId) => {
+
+    const user = await authModel.findUserById(userId);
+
+    if (!user) {
+        throw new Error("User not found.");
+    }
+
+    return {
+        success: true,
+        user
+    };
+
+};
+
+
 module.exports = {
     registerUser,
-    loginUser
+    loginUser,
+    getProfile
 };
