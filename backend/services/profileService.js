@@ -36,6 +36,19 @@ const updateProfile = async (studentId, profileData) => {
 
 };
 
+const getProfile = async (studentId) => {
+
+    const result = await profileModel.getProfile(studentId);
+
+    if (!result.profile) {
+        throw new Error("Profile not found.");
+    }
+
+    return result;
+
+};
+
 module.exports = {
-    updateProfile
+    updateProfile,
+    getProfile
 };

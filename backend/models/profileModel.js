@@ -107,8 +107,42 @@ const updateProfile = async (studentId, profileData) => {
 
 };
 
+const getProfile = async (studentId) => {
+
+    const query = `
+        SELECT
+            s.id,
+            s.full_name,
+            s.email,
+            p.phone,
+            p.college,
+            p.degree,
+            p.graduation_year,
+            p.skills,
+            p.career_interest,
+            p.bio,
+            p.linkedin_url,
+            p.github_url,
+            p.resume_url,
+            p.updated_at
+        FROM students s
+        JOIN student_profiles p
+        ON s.id = p.student_id
+        WHERE s.id = $1;
+    `;
+
+    const result = await pool.query(query, [studentId]);
+
+    return {
+        success: true,
+        profile: result.rows[0]
+    };
+
+};
+
 module.exports = {
     createProfile,
     createEmptyProfile,
-    updateProfile
+    updateProfile,
+    getProfile
 };
