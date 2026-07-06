@@ -7,6 +7,7 @@ require("./config/db");
 const testRoutes = require("./routes/testRoutes");
 const studentRoutes = require("./routes/studentRoutes");
 const authRoutes = require("./routes/authRoutes");
+const profileRoutes = require("./routes/profileRoutes");
 
 const app = express();
 
@@ -19,6 +20,7 @@ app.use("/api/auth", authRoutes);
 // Routes
 app.use("/api", testRoutes);
 app.use("/api/students", studentRoutes);
+app.use("/api/profile", profileRoutes);
 
 // Default Route
 app.get("/", (req, res) => {
