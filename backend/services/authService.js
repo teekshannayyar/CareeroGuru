@@ -1,6 +1,7 @@
 const bcrypt = require("bcrypt");
 const authModel = require("../models/authModel");
 const jwt = require("jsonwebtoken");
+const profileModel = require("../models/profileModel");
 
 const registerUser = async (userData) => {
 
@@ -24,9 +25,15 @@ const registerUser = async (userData) => {
         password: hashedPassword
     };
 
+    // Create user
+    const result = await authModel.createUser(newUser);
+
+    // Automatically create an empty profile
+    await profileModel.createEmptyProfile(result.user.id);
+
+    return result;
 
 
-    return await authModel.createUser(newUser);
 };
 
 const loginUser = async (userData) => {

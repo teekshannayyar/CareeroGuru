@@ -1,6 +1,7 @@
 const profileModel = require("../models/profileModel");
 
-const createProfile = async (studentId, profileData) => {
+// Update Student Profile
+const updateProfile = async (studentId, profileData) => {
 
     const {
         phone,
@@ -20,7 +21,7 @@ const createProfile = async (studentId, profileData) => {
         throw new Error("College, Degree and Graduation Year are required.");
     }
 
-    return await profileModel.createProfile(studentId, {
+    return await profileModel.updateProfile(studentId, {
         phone,
         college,
         degree,
@@ -36,5 +37,5 @@ const createProfile = async (studentId, profileData) => {
 };
 
 module.exports = {
-    createProfile
+    updateProfile
 };

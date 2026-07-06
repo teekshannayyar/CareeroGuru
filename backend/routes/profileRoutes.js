@@ -4,10 +4,10 @@ const router = express.Router();
 const verifyToken = require("../middleware/authMiddleware");
 
 const {
-    createProfile
+    updateProfile
 } = require("../controllers/profileController");
 
-// Create Profile
-router.post("/", verifyToken, createProfile);
+// Update Profile
+router.put("/", verifyToken, updateProfile);
 
 module.exports = router;

@@ -1,15 +1,17 @@
 const profileService = require("../services/profileService");
 
-const createProfile = async (req, res) => {
+const updateProfile = async (req, res) => {
 
     try {
 
-        const result = await profileService.createProfile(
+        console.log("Logged in User ID:", req.user.id);
+
+        const result = await profileService.updateProfile(
             req.user.id,
             req.body
         );
 
-        res.status(201).json(result);
+        res.status(200).json(result);
 
     } catch (error) {
 
@@ -23,5 +25,5 @@ const createProfile = async (req, res) => {
 };
 
 module.exports = {
-    createProfile
+    updateProfile
 };

@@ -1,5 +1,17 @@
 const pool = require("../config/db");
 
+// Automatically create an empty profile after registration
+const createEmptyProfile = async (studentId) => {
+
+    const query = `
+        INSERT INTO student_profiles (student_id)
+        VALUES ($1);
+    `;
+
+    await pool.query(query, [studentId]);
+
+};
+
 const createProfile = async (studentId, profileData) => {
 
     const query = `
@@ -49,6 +61,54 @@ const createProfile = async (studentId, profileData) => {
 
 };
 
+const updateProfile = async (studentId, profileData) => {
+
+    const query = `
+        UPDATE student_profiles
+        SET
+            phone = $1,
+            college = $2,
+            degree = $3,
+            graduation_year = $4,
+            skills = $5,
+            career_interest = $6,
+            bio = $7,
+            linkedin_url = $8,
+            github_url = $9,
+            resume_url = $10,
+            updated_at = CURRENT_TIMESTAMP
+        WHERE student_id = $11
+        RETURNING *;
+    `;
+
+    const values = [
+        profileData.phone,
+        profileData.college,
+        profileData.degree,
+        profileData.graduation_year,
+        profileData.skills,
+        profileData.career_interest,
+        profileData.bio,
+        profileData.linkedin_url,
+        profileData.github_url,
+        profileData.resume_url,
+        studentId
+    ];
+
+    const result = await pool.query(query, values);
+    console.log("Rows Updated:", result.rowCount);
+    console.log("Result:", result.rows);
+
+    return {
+        success: true,
+        message: "Profile updated successfully!",
+        profile: result.rows[0]
+    };
+
+};
+
 module.exports = {
-    createProfile
+    createProfile,
+    createEmptyProfile,
+    updateProfile
 };
