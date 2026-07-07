@@ -140,9 +140,36 @@ const getProfile = async (studentId) => {
 
 };
 
+const updateResume = async (studentId, resumePath) => {
+
+    const query = `
+        UPDATE student_profiles
+        SET
+            resume_url = $1,
+            updated_at = CURRENT_TIMESTAMP
+        WHERE student_id = $2
+        RETURNING *;
+    `;
+
+    const values = [
+        resumePath,
+        studentId
+    ];
+
+    const result = await pool.query(query, values);
+
+    return {
+        success: true,
+        message: "Resume uploaded successfully!",
+        profile: result.rows[0]
+    };
+
+};
+
 module.exports = {
     createProfile,
     createEmptyProfile,
     updateProfile,
-    getProfile
+    getProfile,
+    updateResume
 };
