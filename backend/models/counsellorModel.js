@@ -78,9 +78,49 @@ const findCounsellorById = async (id) => {
     return result.rows[0];
 
 };
+// Update Counsellor Profile
+const updateCounsellorProfile = async (counsellorId, profileData) => {
+
+    const query = `
+        UPDATE counsellors
+        SET
+            phone = $1,
+            experience = $2,
+            company = $3,
+            designation = $4,
+            specialization = $5,
+            bio = $6,
+            linkedin_url = $7,
+            consultation_fee = $8
+        WHERE id = $9
+        RETURNING *;
+    `;
+
+    const values = [
+        profileData.phone,
+        profileData.experience,
+        profileData.company,
+        profileData.designation,
+        profileData.specialization,
+        profileData.bio,
+        profileData.linkedin_url,
+        profileData.consultation_fee,
+        counsellorId
+    ];
+
+    const result = await pool.query(query, values);
+
+    return {
+        success: true,
+        message: "Counsellor profile updated successfully!",
+        counsellor: result.rows[0]
+    };
+
+};
 
 module.exports = {
     createCounsellor,
     findCounsellorByEmail,
-    findCounsellorById
+    findCounsellorById,
+    updateCounsellorProfile
 };

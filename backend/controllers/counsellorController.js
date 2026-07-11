@@ -60,8 +60,32 @@ const getCounsellorProfile = async (req, res) => {
 
 };
 
+// Update Counsellor Profile
+const updateCounsellorProfile = async (req, res) => {
+
+    try {
+
+        const result = await counsellorService.updateCounsellorProfile(
+            req.user.id,
+            req.body
+        );
+
+        res.status(200).json(result);
+
+    } catch (error) {
+
+        res.status(500).json({
+            success: false,
+            message: error.message
+        });
+
+    }
+
+};
+
 module.exports = {
     registerCounsellor,
     loginCounsellor,
-    getCounsellorProfile
+    getCounsellorProfile,
+    updateCounsellorProfile
 };

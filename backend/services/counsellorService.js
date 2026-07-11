@@ -87,8 +87,46 @@ const getCounsellorProfile = async (id) => {
 
 };
 
+// Update Counsellor Profile
+const updateCounsellorProfile = async (counsellorId, profileData) => {
+
+    const {
+        phone,
+        experience,
+        company,
+        designation,
+        specialization,
+        bio,
+        linkedin_url,
+        consultation_fee
+    } = profileData;
+
+    // Basic Validation
+    if (!experience || !company || !designation || !specialization) {
+        throw new Error(
+            "Experience, Company, Designation and Specialization are required."
+        );
+    }
+
+    return await counsellorModel.updateCounsellorProfile(
+        counsellorId,
+        {
+            phone,
+            experience,
+            company,
+            designation,
+            specialization,
+            bio,
+            linkedin_url,
+            consultation_fee
+        }
+    );
+
+};
+
 module.exports = {
     registerCounsellor,
     loginCounsellor,
-    getCounsellorProfile
+    getCounsellorProfile,
+    updateCounsellorProfile
 };

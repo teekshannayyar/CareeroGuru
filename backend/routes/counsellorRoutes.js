@@ -6,14 +6,17 @@ const verifyToken = require("../middleware/authMiddleware");
 const {
     registerCounsellor,
     loginCounsellor,
-    getCounsellorProfile
+    getCounsellorProfile,
+    updateCounsellorProfile
 } = require("../controllers/counsellorController");
 
 // Public Routes
 router.post("/register", registerCounsellor);
 router.post("/login", loginCounsellor);
 
-// Protected Route
+// Protected Routes
 router.get("/profile", verifyToken, getCounsellorProfile);
+
+router.put("/update", verifyToken, updateCounsellorProfile);
 
 module.exports = router;
