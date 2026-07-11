@@ -43,7 +43,34 @@ const getProfile = async (req, res) => {
 
 };
 
+const updateResume = async (req, res) => {
+
+    console.log("✅ updateResume controller reached");
+
+    try {
+
+        const result = await profileService.updateResume(
+            req.user.id,
+            req.file.path
+        );
+
+        res.status(200).json(result);
+
+    } catch (error) {
+
+        console.log(error);
+
+        res.status(500).json({
+            success: false,
+            message: error.message
+        });
+
+    }
+
+};
+
 module.exports = {
     updateProfile,
-    getProfile
+    getProfile,
+    updateResume
 };

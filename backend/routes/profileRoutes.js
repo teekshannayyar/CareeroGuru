@@ -2,16 +2,22 @@ const express = require("express");
 const router = express.Router();
 
 const verifyToken = require("../middleware/authMiddleware");
+const upload = require("../middleware/uploadMiddleware");
 
 const {
     updateProfile,
-    getProfile
+    updateResume
 } = require("../controllers/profileController");
 
-// Get Logged-in User Profile
-router.get("/", verifyToken, getProfile);
+// Update Student Profile
+router.put("/update", verifyToken, updateProfile);
 
-// Update Profile
-router.put("/", verifyToken, updateProfile);
+// Upload Resume
+router.put(
+    "/resume",
+    verifyToken,
+    upload.single("resume"),
+    updateResume
+);
 
 module.exports = router;

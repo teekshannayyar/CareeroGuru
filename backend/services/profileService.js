@@ -1,5 +1,10 @@
 const profileModel = require("../models/profileModel");
 
+// Get Student Profile
+const getProfile = async (studentId) => {
+    return await profileModel.getProfile(studentId);
+};
+
 // Update Student Profile
 const updateProfile = async (studentId, profileData) => {
 
@@ -36,19 +41,19 @@ const updateProfile = async (studentId, profileData) => {
 
 };
 
-const getProfile = async (studentId) => {
+// Upload Resume
+const updateResume = async (studentId, resumePath) => {
 
-    const result = await profileModel.getProfile(studentId);
-
-    if (!result.profile) {
-        throw new Error("Profile not found.");
+    if (!resumePath) {
+        throw new Error("Resume file is required.");
     }
 
-    return result;
+    return await profileModel.updateResume(studentId, resumePath);
 
 };
 
 module.exports = {
+    getProfile,
     updateProfile,
-    getProfile
+    updateResume
 };
