@@ -6,7 +6,8 @@ const verifyToken = require("../middleware/authMiddleware");
 const {
     createBooking,
     getStudentBookings,
-    getCounsellorBookings
+    getCounsellorBookings,
+    updateBookingStatus
 } = require("../controllers/bookingController");
 
 // Create Booking
@@ -21,6 +22,13 @@ router.get(
     "/my-bookings",
     verifyToken,
     getStudentBookings
+);
+
+// Update Booking Status
+router.put(
+    "/:id/status",
+    verifyToken,
+    updateBookingStatus
 );
 
 // Counsellor Routes

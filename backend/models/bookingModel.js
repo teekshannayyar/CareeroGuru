@@ -119,9 +119,47 @@ const getCounsellorBookings = async (counsellorId) => {
 
 };
 
+// Update Booking Status
+const updateBookingStatus = async (bookingId, status) => {
+
+    const query = `
+        UPDATE bookings
+        SET status = $1
+        WHERE id = $2
+        RETURNING *;
+    `;
+
+    const values = [
+        status,
+        bookingId
+    ];
+
+    const result = await pool.query(query, values);
+
+    return result.rows[0];
+
+};
+
+// Find Booking By ID
+const findBookingById = async (bookingId) => {
+
+    const query = `
+        SELECT *
+        FROM bookings
+        WHERE id = $1;
+    `;
+
+    const result = await pool.query(query, [bookingId]);
+
+    return result.rows[0];
+
+};
+
 module.exports = {
     createBooking,
     findBookingBySlot,
     getStudentBookings,
-    getCounsellorBookings
+    getCounsellorBookings,
+    updateBookingStatus,
+    findBookingById
 };

@@ -67,8 +67,55 @@ const getCounsellorBookings = async (req, res) => {
 
 };
 
+// Update Booking Status
+const updateBookingStatus = async (req, res) => {
+
+    try {
+
+        const result = await bookingService.updateBookingStatus(
+            req.user.id,
+            req.params.id,
+            req.body.status
+        );
+
+        res.status(200).json(result);
+
+    } catch (error) {
+
+        // Better error handling
+        if (error.message === "Booking not found.") {
+            return res.status(404).json({
+                success: false,
+                message: error.message
+            });
+        }
+
+        if (error.message === "You are not authorized to update this booking.") {
+            return res.status(403).json({
+                success: false,
+                message: error.message
+            });
+        }
+
+        if (error.message === "Invalid booking status.") {
+            return res.status(400).json({
+                success: false,
+                message: error.message
+            });
+        }
+
+        res.status(500).json({
+            success: false,
+            message: error.message
+        });
+
+    }
+
+};
+
 module.exports = {
     createBooking,
     getStudentBookings,
-    getCounsellorBookings
+    getCounsellorBookings,
+    updateBookingStatus
 };

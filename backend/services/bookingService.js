@@ -63,8 +63,53 @@ const getCounsellorBookings = async (counsellorId) => {
 
 };
 
+// Update Booking Status
+const updateBookingStatus = async (
+    counsellorId,
+    bookingId,
+    status
+) => {
+
+    const validStatuses = [
+        "Accepted",
+        "Rejected",
+        "Completed",
+        "Cancelled"
+    ];
+
+    if (!validStatuses.includes(status)) {
+        throw new Error("Invalid booking status.");
+    }
+
+    // Check if booking exists
+    const booking = await bookingModel.findBookingById(bookingId);
+
+    if (!booking) {
+        throw new Error("Booking not found.");
+    }
+
+    // Authorization Check
+    if (booking.counsellor_id !== counsellorId) {
+        throw new Error("You are not authorized to update this booking.");
+    }
+
+    const updatedBooking =
+        await bookingModel.updateBookingStatus(
+            bookingId,
+            status
+        );
+
+    return {
+        success: true,
+        message: "Booking status updated successfully!",
+        booking: updatedBooking
+    };
+
+};
+
 module.exports = {
     createBooking,
     getStudentBookings,
-    getCounsellorBookings
+    getCounsellorBookings,
+    updateBookingStatus
 };
