@@ -7,12 +7,16 @@ const {
     registerCounsellor,
     loginCounsellor,
     getCounsellorProfile,
-    updateCounsellorProfile
+    updateCounsellorProfile,
+    getAllCounsellors
 } = require("../controllers/counsellorController");
 
 // Public Routes
 router.post("/register", registerCounsellor);
 router.post("/login", loginCounsellor);
+
+// Get All Counsellors
+router.get("/", getAllCounsellors);
 
 // Protected Routes
 router.get("/profile", verifyToken, getCounsellorProfile);

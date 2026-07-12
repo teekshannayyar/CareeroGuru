@@ -124,9 +124,39 @@ const updateCounsellorProfile = async (counsellorId, profileData) => {
 
 };
 
+// Get All Counsellors
+const getAllCounsellors = async () => {
+
+    const counsellors = await counsellorModel.getAllCounsellors();
+
+    return {
+        success: true,
+        counsellors
+    };
+
+};
+
+// Get Counsellor By ID (Public)
+const getCounsellorById = async (id) => {
+
+    const counsellor = await counsellorModel.getCounsellorById(id);
+
+    if (!counsellor) {
+        throw new Error("Counsellor not found.");
+    }
+
+    return {
+        success: true,
+        counsellor
+    };
+
+};
+
 module.exports = {
     registerCounsellor,
     loginCounsellor,
     getCounsellorProfile,
-    updateCounsellorProfile
+    updateCounsellorProfile,
+    getAllCounsellors,
+    getCounsellorById
 };

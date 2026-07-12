@@ -9,6 +9,7 @@ const studentRoutes = require("./routes/studentRoutes");
 const authRoutes = require("./routes/authRoutes");
 const profileRoutes = require("./routes/profileRoutes");
 const counsellorRoutes = require("./routes/counsellorRoutes");
+const bookingRoutes = require("./routes/bookingRoutes");
 
 const app = express();
 
@@ -23,6 +24,7 @@ app.use("/api", testRoutes);
 app.use("/api/students", studentRoutes);
 app.use("/api/profile", profileRoutes);
 app.use("/api/counsellor", counsellorRoutes);
+app.use("/api/bookings", bookingRoutes);
 
 // Default Route
 app.get("/", (req, res) => {

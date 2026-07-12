@@ -118,9 +118,59 @@ const updateCounsellorProfile = async (counsellorId, profileData) => {
 
 };
 
+// Get All Counsellors
+const getAllCounsellors = async () => {
+
+    const query = `
+        SELECT
+            id,
+            full_name,
+            experience,
+            company,
+            designation,
+            specialization,
+            consultation_fee
+        FROM counsellors
+        ORDER BY full_name;
+    `;
+
+    const result = await pool.query(query);
+
+    return result.rows;
+
+};
+
+// Get Counsellor By ID (Public)
+const getCounsellorById = async (id) => {
+
+    const query = `
+        SELECT
+            id,
+            full_name,
+            phone,
+            experience,
+            company,
+            designation,
+            specialization,
+            bio,
+            linkedin_url,
+            consultation_fee,
+            created_at
+        FROM counsellors
+        WHERE id = $1;
+    `;
+
+    const result = await pool.query(query, [id]);
+
+    return result.rows[0];
+
+};
+
 module.exports = {
     createCounsellor,
     findCounsellorByEmail,
     findCounsellorById,
-    updateCounsellorProfile
+    updateCounsellorProfile,
+    getAllCounsellors,
+    getCounsellorById
 };

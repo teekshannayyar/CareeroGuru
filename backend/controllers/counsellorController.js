@@ -83,9 +83,51 @@ const updateCounsellorProfile = async (req, res) => {
 
 };
 
+// Get All Counsellors
+const getAllCounsellors = async (req, res) => {
+
+    try {
+
+        const result = await counsellorService.getAllCounsellors();
+
+        res.status(200).json(result);
+
+    } catch (error) {
+
+        res.status(500).json({
+            success: false,
+            message: error.message
+        });
+
+    }
+
+};
+
+// Get Counsellor By ID (Public)
+const getCounsellorById = async (req, res) => {
+
+    try {
+
+        const result = await counsellorService.getCounsellorById(req.params.id);
+
+        res.status(200).json(result);
+
+    } catch (error) {
+
+        res.status(404).json({
+            success: false,
+            message: error.message
+        });
+
+    }
+
+};
+
 module.exports = {
     registerCounsellor,
     loginCounsellor,
     getCounsellorProfile,
-    updateCounsellorProfile
+    updateCounsellorProfile,
+    getAllCounsellors,
+    getCounsellorById
 };
