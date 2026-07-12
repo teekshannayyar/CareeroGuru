@@ -7,14 +7,23 @@ const {
     createBooking,
     getStudentBookings,
     getCounsellorBookings,
-    updateBookingStatus
+    updateBookingStatus,
+    cancelBooking
 } = require("../controllers/bookingController");
 
-// Create Booking
-router.post(
-    "/",
+// Student Routes
+router.post("/", verifyToken, createBooking);
+
+router.get(
+    "/my-bookings",
     verifyToken,
-    createBooking
+    getStudentBookings
+);
+
+router.put(
+    "/:id/cancel",
+    verifyToken,
+    cancelBooking
 );
 
 // Get Logged-in Student Bookings
@@ -32,6 +41,16 @@ router.put(
 );
 
 // Counsellor Routes
-router.get("/counsellor", verifyToken, getCounsellorBookings);
+router.get(
+    "/counsellor",
+    verifyToken,
+    getCounsellorBookings
+);
+
+router.put(
+    "/:id/status",
+    verifyToken,
+    updateBookingStatus
+);
 
 module.exports = router;

@@ -155,11 +155,28 @@ const findBookingById = async (bookingId) => {
 
 };
 
+// Cancel Booking
+const cancelBooking = async (bookingId) => {
+
+    const query = `
+        UPDATE bookings
+        SET status = 'Cancelled'
+        WHERE id = $1
+        RETURNING *;
+    `;
+
+    const result = await pool.query(query, [bookingId]);
+
+    return result.rows[0];
+
+};
+
 module.exports = {
     createBooking,
     findBookingBySlot,
     getStudentBookings,
     getCounsellorBookings,
     updateBookingStatus,
-    findBookingById
+    findBookingById,
+    cancelBooking
 };

@@ -113,9 +113,57 @@ const updateBookingStatus = async (req, res) => {
 
 };
 
+// Cancel Booking
+const cancelBooking = async (req, res) => {
+
+    try {
+
+        const result = await bookingService.cancelBooking(
+            req.user.id,
+            req.params.id
+        );
+
+        res.status(200).json(result);
+
+    } catch (error) {
+
+        if (error.message === "Booking not found.") {
+            return res.status(404).json({
+                success: false,
+                message: error.message
+            });
+        }
+
+        if (error.message === "You are not authorized to cancel this booking.") {
+            return res.status(403).json({
+                success: false,
+                message: error.message
+            });
+        }
+
+        if (
+            error.message ===
+            "Only Pending or Accepted bookings can be cancelled."
+        ) {
+            return res.status(400).json({
+                success: false,
+                message: error.message
+            });
+        }
+
+        res.status(500).json({
+            success: false,
+            message: error.message
+        });
+
+    }
+
+};
+
 module.exports = {
     createBooking,
     getStudentBookings,
     getCounsellorBookings,
-    updateBookingStatus
+    updateBookingStatus,
+    cancelBooking
 };

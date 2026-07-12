@@ -107,9 +107,51 @@ const updateBookingStatus = async (
 
 };
 
+// Cancel Booking
+const cancelBooking = async (
+    studentId,
+    bookingId
+) => {
+
+    // Check if booking exists
+    const booking = await bookingModel.findBookingById(
+        bookingId
+    );
+
+    if (!booking) {
+        throw new Error("Booking not found.");
+    }
+
+    // Authorization Check
+    if (booking.student_id !== studentId) {
+        throw new Error("You are not authorized to cancel this booking.");
+    }
+
+    // Business Rule Check
+    if (
+        booking.status !== "Pending" &&
+        booking.status !== "Accepted"
+    ) {
+        throw new Error(
+            "Only Pending or Accepted bookings can be cancelled."
+        );
+    }
+
+    const cancelledBooking =
+        await bookingModel.cancelBooking(bookingId);
+
+    return {
+        success: true,
+        message: "Booking cancelled successfully!",
+        booking: cancelledBooking
+    };
+
+};
+
 module.exports = {
     createBooking,
     getStudentBookings,
     getCounsellorBookings,
-    updateBookingStatus
+    updateBookingStatus,
+    cancelBooking
 };
